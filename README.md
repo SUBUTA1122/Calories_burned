@@ -1,4 +1,5 @@
-# Calories_burnedname=input('名前:')
+# Calories_burned
+name=input('名前:')
 age=int(input('年齢:'))
 weight=float(input('体重(kg):'))
 hight=float(input('身長(cm):'))
