@@ -1,11 +1,10 @@
-# Calories_burned
-name=input('名前:')
+# Calories_burnedname=input('名前:')
 age=int(input('年齢:'))
 weight=float(input('体重(kg):'))
 hight=float(input('身長(cm):'))
-sex=input('性別(men or women):')
-
-if sex == 'men':
+sex=input('性別(Men or Women):')
+select=int(input('1日トータル消費カロリー->0\n1つの活動消費カロリー->1'))
+if sex == 'Men':
     constant=72.46
 else:
     constant=70.49
@@ -80,21 +79,68 @@ BMRhour=BMRday/24
 
 #Calculate exercise intensity in Karvonen Formula.
 #EI=exercise intensity
-time=float(input('活動の時間(分):'))
-actPR=int(input('活動中の心拍数/分:'))
 restPR=int(input('安静時の心拍数/分:'))
-maxPR=220-age
-EI=(actPR-restPR)/(maxPR-restPR)*100
-EIMETs=EI/10
-hour=time/60
-BMRtime=BMRhour*hour
+if select==0:
+    
+    actnum=int(input('活動項目数:'))
+    totalkcal=0
 
-#calculate calories burned of act times(mets only).
-Simplekcal=EIMETs*hour*weight*1.05
-#RMR:relative metabolic rate
-#rest time calories burned is METs 1.
-#CB=calories burned
-rest_timeCB=1*hour*weight*1.05
-RMR=(Simplekcal-rest_timeCB)/BMRtime
-CBkcal=RMR*hour*weight
-print(name,'さんが',time,'分の活動（',EIMETs,'METs）を行うと',CBkcal,'kcal消費される')
+    for AN in range(1,actnum+1):
+        print('No',AN)
+
+        time=float(input('活動の時間(分):'))
+        actPR=int(input('活動中の心拍数/分:'))
+
+        maxPR=220-age
+        EI=(actPR-restPR)/(maxPR-restPR)*100
+        EIMETs=EI/10
+        hour=time/60
+        BMRtime=BMRhour*hour
+
+        #calculate calories burned of act times(mets only).
+        Simplekcal=EIMETs*hour*weight*1.05
+        #RMR:relative metabolic rate
+        #rest time calories burned is METs 1.
+        #CB=calories burned
+        rest_timeCB=1*hour*weight*1.05
+        RMR=(Simplekcal-rest_timeCB)/BMRtime
+        CBkcal=RMR*hour*weight
+
+        totalkcal+=CBkcal
+        
+    sit=int(input('1日の座位姿勢の時間(分):'))/60
+    lying_down=int(input('1日の臥位姿勢の時間(分):'))/60
+    standing=int(input('1日の立位姿勢の時間(分):'))/60
+
+    sitMETs=1.3
+    lying_downMETs=1.0
+    standingMETs=1.3
+
+    sitkcal=sitMETs*sit*weight*1.05
+    lying_downkcal=lying_downMETs*lying_down*weight*1.05
+    standingkcal=standingMETs*standing*weight*1.05
+    positionkcal=sitkcal+lying_downkcal+standingkcal
+        
+    allkcal=totalkcal+positionkcal
+    print(name,'さんは一日',round(allkcal,2),'kcal消費される')
+
+else:
+    time=float(input('活動の時間(分):'))
+    actPR=int(input('活動中の心拍数/分:'))
+
+    maxPR=220-age
+    EI=(actPR-restPR)/(maxPR-restPR)*100
+    EIMETs=EI/10
+    hour=time/60
+    BMRtime=BMRhour*hour
+
+    #calculate calories burned of act times(mets only).
+    Simplekcal=EIMETs*hour*weight*1.05
+    #RMR:relative metabolic rate
+    #rest time calories burned is METs 1.
+    #CB=calories burned
+    rest_timeCB=1*hour*weight*1.05
+    RMR=(Simplekcal-rest_timeCB)/BMRtime
+    CBkcal=RMR*hour*weight
+    
+    print(name,'さんは',round(EIMETs,2),'METsの活動を',time,'分行うことで',round(CBkcal,2),'kcal消費される')
